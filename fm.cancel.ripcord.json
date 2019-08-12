@@ -1,0 +1,41 @@
+{
+    "app-id": "fm.cancel.Ripcord",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "18.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "run",
+    "separate-locales": false,
+    "finish-args": [
+        "--share=network",
+        "--socket=wayland",
+        "--socket=x11",
+        "--device=dri"
+    ],
+    "modules": [
+        {
+            "name": "Ripcord",
+            "buildsystem": "simple",
+            "build-commands": [
+                "chmod a+x Ripcord-0.4.12-x86_64.AppImage",
+                "./Ripcord-0.4.12-x86_64.AppImage --appimage-extract",
+                "sed -i -e 's/Exec.*/Exec=run/' squashfs-root/Ripcord.desktop",
+                "sed -i -e 's/Icon.*/Icon=fm.cancel.Ripcord/' squashfs-root/Ripcord.desktop",
+                "mkdir -p /app/share/applications",
+                "mkdir -p /app/share/icons/hicolor/256x256/apps",
+                "mv squashfs-root/Ripcord.desktop /app/share/applications/fm.cancel.Ripcord.desktop",
+                "mv squashfs-root/Ripcord_Icon.png /app/share/icons/hicolor/256x256/apps/fm.cancel.Ripcord.png",
+                "mv squashfs-root /app/bin",
+                "echo 'AppRun' > /app/bin/run",
+                "chmod a+x /app/bin/run",
+                "rm ./Ripcord-0.4.12-x86_64.AppImage"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://cancel.fm/dl/Ripcord-0.4.12-x86_64.AppImage",
+                    "sha256": "b829eb2ad964c70d4a3a341d7d14c4b950f6352d919951333d018c659b3be9f1"
+                }
+            ]
+        }
+    ]
+}
